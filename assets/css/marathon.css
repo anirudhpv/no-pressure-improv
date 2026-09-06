@@ -1,0 +1,31 @@
+  section.archive{padding:36px 0 68px}
+  .arc-badge{display:inline-flex; align-items:center; gap:8px; background:var(--dark); color:#fff; font-weight:700; font-size:12.5px; letter-spacing:.06em; text-transform:uppercase; padding:7px 14px; border-radius:100px}
+  .arc-head h2{font-size:clamp(30px,4vw,46px); font-weight:800; font-family:'Baloo 2',sans-serif; margin:14px 0 12px; line-height:1.05}
+  .arc-head p{max-width:640px; font-size:16px; color:var(--ink-2); line-height:1.55}
+  .arc-venue{margin-top:24px; background:var(--card); border:1px solid var(--line); border-radius:22px; padding:22px 26px; display:flex; flex-wrap:wrap; gap:24px; justify-content:space-between}
+  .arc-venue div{min-width:220px}
+  .arc-venue h4{font-size:12.5px; text-transform:uppercase; letter-spacing:.08em; color:var(--note); margin-bottom:6px}
+  .arc-venue p{margin:0; font-size:14.5px; color:var(--ink); line-height:1.5}
+  .arc-lineup{display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:28px}
+  .arc-show{border-radius:20px; padding:22px 20px; min-height:130px; display:flex; flex-direction:column; gap:8px; justify-content:flex-end}
+  .arc-show span{font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; opacity:.85}
+  .arc-show h3{font-size:18px; font-weight:700; line-height:1.2}
+  .arc-show.a1{background:var(--dark); color:#fff}
+  .arc-show.a2{background:var(--purple); color:#fff}
+  .arc-show.a3{background:var(--teal); color:var(--teal-ink)}
+  .arc-show.a4{background:var(--pink); color:#fff}
+  .arc-show.a5{background:var(--gold); color:var(--gold-ink)}
+  .arc-show.a6{background:var(--dark-2); color:#fff}
+  .arc-run{margin-top:32px; background:var(--card); border:1px solid var(--line); border-radius:22px; padding:8px 26px}
+  .arc-run .r{display:flex; justify-content:space-between; gap:16px; padding:14px 0; border-bottom:1px solid var(--line); font-size:14.5px}
+  .arc-run .r:last-child{border-bottom:none}
+  .arc-run .r b{color:var(--ink); font-weight:700; min-width:90px}
+  .arc-run .r span{color:var(--ink-2); text-align:right}
+  .arc-foot{margin-top:32px; display:flex; flex-wrap:wrap; gap:14px; align-items:center}
+
+  @media (max-width: 860px){
+    .arc-lineup{grid-template-columns:1fr}
+    .arc-venue{flex-direction:column; gap:14px}
+    .arc-run .r{flex-direction:column; gap:2px}
+    .arc-run .r span{text-align:left}
+  }

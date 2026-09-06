@@ -1,0 +1,60 @@
+  :root{
+    --bg:#FBF4EF;
+    --ink:#241825;
+    --ink-2:#5C4257;
+    --card:#FFFFFF;
+    --dark:#221722;
+    --dark-2:#2E1F2E;
+    --pink:#EE3E82;
+    --pink-ink:#2A0E1C;
+    --gold:#F6BB3F;
+    --gold-ink:#2A1C05;
+    --purple:#9B6BE0;
+    --purple-ink:#1F1230;
+    --teal:#38BFAE;
+    --teal-ink:#062522;
+    --line:rgba(36,24,37,.1);
+    --note:#B08A3E;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#1B1420; --ink:#F5ECF3; --ink-2:#CBB4C6; --card:#251C29;
+      --dark:#120A13; --dark-2:#1D1420; --line:rgba(245,236,243,.12);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#1B1420; --ink:#F5ECF3; --ink-2:#CBB4C6; --card:#251C29;
+    --dark:#120A13; --dark-2:#1D1420; --line:rgba(245,236,243,.12);
+  }
+  *{box-sizing:border-box}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:"Figtree",ui-sans-serif,system-ui,sans-serif; font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-family:"Baloo 2","Figtree",sans-serif; margin:0; text-wrap:balance}
+  a{color:inherit}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 24px}
+
+  header.top{display:flex; align-items:center; justify-content:space-between; padding:22px 0}
+  .brand{display:flex; align-items:center; gap:12px; text-decoration:none; color:inherit}
+  .brand img{width:40px; height:40px; display:block}
+  .brand span{font-family:"Baloo 2",sans-serif; font-weight:700; font-size:19px; letter-spacing:-.01em}
+  nav{display:flex; gap:22px}
+  nav a{font-weight:700; color:var(--pink); text-decoration:none; font-size:15px}
+  nav a.muted{color:var(--ink-2)}
+
+  .btn{display:inline-flex; align-items:center; gap:8px; font-weight:700; font-size:15px; padding:13px 22px; border-radius:999px; text-decoration:none; border:none; cursor:pointer; font-family:inherit}
+  .btn-gold{background:var(--gold); color:var(--gold-ink)}
+  .btn-pink{background:var(--pink); color:#fff}
+  .btn-dark{background:var(--dark); color:#fff}
+  .btn-ghost{background:transparent; color:var(--ink); border:2px solid var(--line)}
+  .btn:hover{filter:brightness(1.05)}
+
+  .eyebrow{color:var(--pink); font-weight:800; font-size:12.5px; letter-spacing:.1em; text-transform:uppercase}
+
+  footer{border-top:1px solid var(--line); padding:24px 0; display:flex; justify-content:space-between; align-items:center; font-size:13.5px; color:var(--ink-2)}
+  footer a{font-weight:700; color:var(--ink)}
+
+  @media (max-width: 480px){
+    header.top{flex-wrap:wrap; gap:10px 0}
+    .brand span{font-size:16px}
+    nav{gap:14px}
+    nav a{font-size:13.5px}
+  }

@@ -1,0 +1,20 @@
+[
+  {
+    "id": "tee-classic",
+    "type": "T-shirt",
+    "name": "NPI Classic Tee",
+    "desc": "Screen-printed cotton tee with the NPI logo across the chest. Unisex fit.",
+    "variants": "Sizes: S, M, L, XL · Colour: Black",
+    "price": null,
+    "image": null
+  },
+  {
+    "id": "tote-blockprint",
+    "type": "Tote bag",
+    "name": "NPI Block-Print Tote",
+    "desc": "Hand block-printed canvas tote, each one hand-stamped so the print varies slightly piece to piece. Sturdy enough for scripts, snacks and everything else you bring to a jam.",
+    "variants": "One size · Natural canvas",
+    "price": null,
+    "image": null
+  }
+]

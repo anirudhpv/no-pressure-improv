@@ -11,6 +11,7 @@ static file host will serve it as-is.
 ```
 index.html          Homepage: hero, upcoming-events carousel, community links, calendar teaser
 calendar.html        Interactive, multi-month events calendar (hover/click a date, price toggle)
+shop.html            Merch shop: printed tees and block-printed totes (see below)
 marathon.html        Archive page for the (completed) Improv Marathon
 admin.html           Calendar editor — a form-based helper for editing events.json (see below)
 robots.txt           Blocks search engines and known AI/LLM crawlers from indexing the site
@@ -22,17 +23,20 @@ partials/
 assets/
   data/
     events.json      Single source of truth for all events, across all months
+    products.json    Shop products (t-shirts, tote bags)
   css/
     base.css         Shared tokens, header, footer, buttons — loaded by every page
     home.css         Homepage-only styles (hero, carousel, community cards)
     marathon.css     Marathon archive page styles
     calendar.css     Calendar page's own content styles (calendar grid, panels, etc.)
+    shop.css         Shop page styles
     admin.css        Calendar editor page styles
   js/
     analytics.js     Google Analytics (GA4) config — loaded on every page, tracking ID lives here
     include.js       Fetches partials/header.html and partials/footer.html into every page
     home.js          Homepage carousel: fetches events.json, shows upcoming events
     calendar.js       Calendar rendering: fetches events.json, month navigation, hover/click-to-pin, price toggle, image lightbox
+    shop.js          Shop rendering: fetches products.json, builds product cards
     admin.js         Calendar editor: fetches events.json, lets you add/edit/delete events client-side, exports updated JSON
   images/
     logo.png
@@ -108,6 +112,35 @@ download, and `events.json` goes away in favor of an API call.
 
 Registration currently links out to a Tally form (`https://tally.so/r/gDoGBM`). Update
 that URL in `calendar.html` and `calendar.js` if the form changes.
+
+## The shop
+
+`shop.html` lists products from **`assets/data/products.json`** — right now just the two
+placeholder items (a t-shirt and a tote bag). Each product is:
+
+```json
+{
+  "id": "tee-classic",
+  "type": "T-shirt",
+  "name": "NPI Classic Tee",
+  "desc": "Screen-printed cotton tee with the NPI logo across the chest. Unisex fit.",
+  "variants": "Sizes: S, M, L, XL · Colour: Black",
+  "price": null,
+  "image": null
+}
+```
+
+`price: null` shows "TBC" (same convention as events); `image: null` shows a "Photo
+coming soon" placeholder block instead of a broken image. Before this goes live, three
+things still need real values:
+
+- **Photos** — add product photos to `assets/images/` and set each product's `image` to
+  the filename.
+- **Prices** — fill in `price` (a plain number, rupees) once they're settled.
+- **Order form** — "Order this" currently points to a placeholder Tally URL
+  (`https://tally.so/r/REPLACE_WITH_MERCH_FORM`) in `assets/js/shop.js` (the `ORDER_FORM`
+  constant). Build a real Tally form (name, size, address, transaction ID) and swap that
+  URL in. Payment reuses the same UPI ID/QR code already used for event registration.
 
 ## Keeping this off search engines and AI crawlers
 

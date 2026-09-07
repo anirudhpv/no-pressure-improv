@@ -1,0 +1,46 @@
+.admin-intro{padding:8px 0 28px}
+.admin-intro h1{font-size:clamp(26px,3.4vw,36px); margin:8px 0 10px}
+.admin-intro p{max-width:70ch; color:var(--ink-2); margin:0}
+.admin-intro code, .admin-export code{background:var(--line); padding:.15em .4em; border-radius:6px; font-size:.9em}
+
+.admin-grid{display:grid; grid-template-columns:minmax(280px,420px) 1fr; gap:28px; align-items:start; margin-bottom:36px}
+@media (max-width:860px){ .admin-grid{grid-template-columns:1fr} }
+
+.admin-form{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:20px 22px; display:grid; gap:14px}
+.admin-form h2{font-size:18px; margin-bottom:2px}
+.admin-form label{display:flex; flex-direction:column; gap:6px; font-size:13.5px; font-weight:700; color:var(--ink-2)}
+.admin-form label small{font-weight:600; text-transform:none; letter-spacing:0; color:var(--ink-2); opacity:.8}
+.admin-form input, .admin-form select, .admin-form textarea{
+  font:inherit; font-weight:400; padding:9px 11px; border-radius:9px; border:1px solid var(--line);
+  background:var(--bg); color:var(--ink); width:100%;
+}
+.admin-form input:focus, .admin-form select:focus, .admin-form textarea:focus{outline:2px solid var(--pink); outline-offset:1px}
+.grid2{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+@media (max-width:480px){ .grid2{grid-template-columns:1fr} }
+.form-actions{display:flex; gap:10px; margin-top:4px}
+
+.admin-list h2{font-size:18px; margin-bottom:14px}
+.admin-list .count{color:var(--ink-2); font-weight:600; font-size:14px}
+.ev-row{
+  display:grid; grid-template-columns:auto 1fr auto; gap:14px; align-items:center; padding:12px 14px;
+  border:1px solid var(--line); border-radius:12px; background:var(--card); margin-bottom:10px;
+}
+.ev-row .when{font-weight:700; font-size:13.5px; white-space:nowrap; color:var(--ink-2)}
+.ev-row .what b{display:block}
+.ev-row .what span{font-size:13px; color:var(--ink-2)}
+.ev-row .row-actions{display:flex; gap:8px}
+.ev-row .row-actions button{
+  font:inherit; font-size:13px; font-weight:700; padding:6px 12px; border-radius:999px; cursor:pointer; border:1px solid var(--line); background:transparent; color:var(--ink);
+}
+.ev-row .row-actions button:hover{background:var(--line)}
+.empty-note{color:var(--ink-2); font-size:14px; padding:8px 0}
+
+.admin-export{margin-bottom:40px}
+.export-head{display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; margin-bottom:6px}
+.admin-export h2{font-size:18px}
+.export-actions{display:flex; gap:10px}
+.admin-export .lede{color:var(--ink-2); font-size:14px; margin:0 0 12px}
+#jsonOut{
+  width:100%; min-height:260px; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:13px;
+  padding:14px; border-radius:12px; border:1px solid var(--line); background:var(--dark); color:#DCE7E4; resize:vertical;
+}

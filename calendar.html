@@ -3,8 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>September 2026 — No Pressure Improv</title>
-<meta name="description" content="Interactive calendar of No Pressure Improv's September 2026 jams, labs and online sessions in Bengaluru.">
+<title>Calendar — No Pressure Improv</title>
+<meta name="description" content="Interactive calendar of No Pressure Improv's upcoming jams, labs and online sessions in Bengaluru.">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
 <link rel="icon" href="assets/images/logo.png">
@@ -19,7 +20,7 @@
   <header class="top">
     <div class="brand" aria-label="No Pressure Improv">
       <img class="logo" src="assets/images/logo.png" alt="No Pressure Improv" width="72" height="72">
-      <div class="brand-text"><b>No Pressure Improv</b><span>Bengaluru · September 2026</span></div>
+      <div class="brand-text"><b>No Pressure Improv</b><span>Bengaluru</span></div>
     </div>
     <div class="controls">
       <button class="switch" id="priceToggle" role="switch" aria-checked="false" type="button">
@@ -31,8 +32,8 @@
 
   <div class="intro">
     <div>
-      <h1>All good things, improv, <em>in September.</em></h1>
-      <p>Seven sessions across the month: jams for everyone, two experimental labs, a book-club chapter and one online gathering. Hover a date to peek, click to pin it.</p>
+      <h1>All good things, <em>improv.</em></h1>
+      <p>Jams for everyone, experimental labs, book-club chapters and online gatherings, month after month. Hover a date to peek, click to pin it.</p>
     </div>
     <div class="deal" aria-label="Multi-event discounts, auto-applied on the form">
       <div><b>10%</b><span>off 2 events</span></div>
@@ -42,13 +43,17 @@
   </div>
 
   <div class="stage">
-    <aside class="cal" aria-label="September 2026 calendar">
+    <aside class="cal" aria-label="Calendar">
       <div class="cal-head">
-        <h2>September <small>2026</small></h2>
+        <div class="cal-head-title">
+          <button type="button" class="mo-nav" id="prevMonth" aria-label="Previous month">‹</button>
+          <h2 id="monthLabel"></h2>
+          <button type="button" class="mo-nav" id="nextMonth" aria-label="Next month">›</button>
+        </div>
         <div class="legend"><span class="lp"><i></i>In-person</span><span class="lo"><i></i>Online</span></div>
       </div>
       <div class="dow"><div>SU</div><div>MO</div><div>TU</div><div>WE</div><div>TH</div><div>FR</div><div>SA</div></div>
-      <div class="grid" id="grid" role="grid" aria-label="Days of September 2026"></div>
+      <div class="grid" id="grid" role="grid"></div>
       <div class="cal-foot">
         <span id="hint">Hover to preview · click to pin</span>
         <a href="https://calendar.google.com/calendar/u/1?cid=Y191YWU1YzZoMGNoZWExYnVpNWh1aTRhbGZ0Y0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t" target="_blank" rel="noopener">Sync the NPI calendar ↗</a>
@@ -59,8 +64,8 @@
   </div>
 
   <section class="block" id="all">
-    <h2>Everything this month</h2>
-    <p class="lede">The same seven sessions in order. Select one to bring it up in the panel above.</p>
+    <h2>Everything on the calendar</h2>
+    <p class="lede">Every upcoming session, in order. Select one to bring it up in the panel above.</p>
     <div class="list" id="list"></div>
   </section>
 
@@ -108,7 +113,7 @@
   </section>
 
   <footer>
-    <span>No Pressure Improv · September 2026</span>
+    <span>No Pressure Improv · Bengaluru</span>
     <span>Times are IST. Details may change; the form is the source of truth.</span>
   </footer>
 </div>

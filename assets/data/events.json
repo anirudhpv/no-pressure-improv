@@ -1,0 +1,93 @@
+[
+  {
+    "date": "2026-09-04",
+    "start": "19:00",
+    "end": "21:00",
+    "format": "inperson",
+    "kind": "Improv Jam",
+    "title": "Quit Playin' Games With My Heart",
+    "host": "Shweta & Samyukthaa",
+    "venue": "Shubham SSPA, JP Nagar",
+    "desc": "An Improv Jam for everyone. We'll play silly games and have fun.",
+    "price": null,
+    "image": "event-04.jpg"
+  },
+  {
+    "date": "2026-09-11",
+    "start": "19:00",
+    "end": "20:30",
+    "format": "inperson",
+    "kind": "Improv Jam",
+    "title": "Improv Jam in West Bengaluru",
+    "host": "Laxmi",
+    "venue": "Oorkathe",
+    "desc": "A relaxed, no-experience-needed jam for the west side of the city.",
+    "price": null,
+    "image": "event-11.jpg"
+  },
+  {
+    "date": "2026-09-13",
+    "start": "11:30",
+    "end": "12:30",
+    "format": "online",
+    "kind": "Online Jam",
+    "title": "The 5-Minute Club",
+    "host": "Rutika Yoelkar",
+    "venue": "Online (link shared after registration)",
+    "desc": "A monthly online gathering built around one simple idea: the most meaningful conversations don't need hours of content, they just need the right five minutes. Bring a short piece of media; we listen deeply, stay curious and open, and build on one another's ideas.",
+    "price": null,
+    "image": "event-13.jpg"
+  },
+  {
+    "date": "2026-09-19",
+    "start": "18:00",
+    "end": "21:00",
+    "format": "inperson",
+    "kind": "Improv Lab",
+    "title": "Feelings Are Good",
+    "host": "Aditya Ramesh",
+    "venue": "Venue shared after registration",
+    "desc": "An experimental Improv Lab which deep dives into playing emotional scenes.",
+    "price": null,
+    "image": "event-19.jpg"
+  },
+  {
+    "date": "2026-09-21",
+    "start": "18:00",
+    "end": "21:00",
+    "format": "inperson",
+    "kind": "Improv Lab",
+    "title": "Breaktime with Saga",
+    "host": "Saga",
+    "venue": "Concept 01, Koramangala",
+    "desc": "Ever watched a comedy show and thought, I want to try that? Now is your chance. Breaktime with Saga is an interactive, pressure-free evening created by an artist who loves comedy more than anything. Curated specifically for people with zero experience in comedy performance or any art form, this is a safe space to let loose, laugh, and learn.",
+    "price": null,
+    "image": "event-21.jpg"
+  },
+  {
+    "date": "2026-09-25",
+    "start": "19:00",
+    "end": "20:30",
+    "format": "inperson",
+    "kind": "Improv Jam",
+    "title": "Improv Jam in West Bengaluru",
+    "host": "Abhi",
+    "venue": "Oorkathe",
+    "desc": "A relaxed, no-experience-needed jam for the west side of the city.",
+    "price": null,
+    "image": "event-25.jpg"
+  },
+  {
+    "date": "2026-09-28",
+    "start": "19:00",
+    "end": "21:00",
+    "format": "inperson",
+    "kind": "Improv Jam",
+    "title": "Patti Stiles' Improvise Freely: Next Chapter",
+    "host": "Laxmi",
+    "venue": "Dhurii, Indiranagar",
+    "desc": "We continue to look at the Patti Stiles book Improvise Freely, which continues to redefine what the basics of improvisational theatre are. One chapter, explored on our feet.",
+    "price": null,
+    "image": "event-28.jpg"
+  }
+]

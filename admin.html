@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calendar editor — No Pressure Improv</title>
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<link rel="icon" href="assets/images/logo.png">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="index.html">
+      <img src="assets/images/logo.png" alt="No Pressure Improv">
+      <span>nopressureimprov</span>
+    </a>
+    <nav><a href="calendar.html">Calendar</a></nav>
+  </header>
+
+  <section class="admin-intro">
+    <span class="eyebrow">Internal tool · not linked from anywhere on the site</span>
+    <h1>Calendar editor</h1>
+    <p>Add, edit or remove events below. This page doesn't save anything by itself — when you're
+    done, download the updated file, replace <code>assets/data/events.json</code> in the repo,
+    then commit and push. The live calendar and homepage both read from that one file.</p>
+  </section>
+
+  <section class="admin-grid">
+    <form id="eventForm" class="admin-form">
+      <h2 id="formTitle">Add an event</h2>
+      <div class="grid2">
+        <label>Date<input type="date" id="f-date" required></label>
+        <label>Format
+          <select id="f-format">
+            <option value="inperson">In-person</option>
+            <option value="online">Online</option>
+          </select>
+        </label>
+        <label>Start time<input type="time" id="f-start" required></label>
+        <label>End time<input type="time" id="f-end" required></label>
+        <label>Kind
+          <input type="text" id="f-kind" list="kinds" placeholder="Improv Jam" required>
+          <datalist id="kinds">
+            <option value="Improv Jam"><option value="Improv Lab"><option value="Online Jam">
+          </datalist>
+        </label>
+        <label>Price in ₹ <small>(blank shows "TBC")</small><input type="number" id="f-price" min="0"></label>
+      </div>
+      <label>Title<input type="text" id="f-title" required></label>
+      <label>Host<input type="text" id="f-host" required></label>
+      <label>Venue<input type="text" id="f-venue" required></label>
+      <label>Description<textarea id="f-desc" rows="3"></textarea></label>
+      <label>Poster image filename <small>(must already exist in assets/images/)</small>
+        <input type="text" id="f-image" placeholder="event-04.jpg">
+      </label>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-pink" id="saveBtn">Add event</button>
+        <button type="button" class="btn btn-ghost" id="cancelEdit" hidden>Cancel edit</button>
+      </div>
+    </form>
+
+    <div class="admin-list">
+      <h2>Events <span id="countLabel" class="count"></span></h2>
+      <div id="eventList"></div>
+    </div>
+  </section>
+
+  <section class="admin-export">
+    <div class="export-head">
+      <h2>Export</h2>
+      <div class="export-actions">
+        <button type="button" class="btn btn-dark" id="downloadBtn">Download events.json</button>
+        <button type="button" class="btn btn-ghost" id="copyBtn">Copy to clipboard</button>
+      </div>
+    </div>
+    <p class="lede">This always reflects the list above, sorted by date. Replace the contents of
+    <code>assets/data/events.json</code> with this, then commit and push to publish.</p>
+    <textarea id="jsonOut" readonly spellcheck="false"></textarea>
+  </section>
+
+  <footer>
+    <span>No Pressure Improv · internal tool</span>
+    <a href="index.html">← back to the site</a>
+  </footer>
+</div>
+
+<script src="assets/js/admin.js"></script>
+</body>
+</html>

@@ -29,6 +29,7 @@ assets/
     calendar.css     Calendar page's own content styles (calendar grid, panels, etc.)
     admin.css        Calendar editor page styles
   js/
+    analytics.js     Google Analytics (GA4) config — loaded on every page, tracking ID lives here
     include.js       Fetches partials/header.html and partials/footer.html into every page
     home.js          Homepage carousel: fetches events.json, shows upcoming events
     calendar.js       Calendar rendering: fetches events.json, month navigation, hover/click-to-pin, price toggle, image lightbox

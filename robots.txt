@@ -1,6 +1,37 @@
 User-agent: *
 Disallow: /
 
+# Link-preview / unfurl bots: these only fetch a page when someone who
+# already has the link shares it in a chat app — not proactive crawling
+# or indexing — so allowing them doesn't expose the site to search or
+# AI-training crawlers.
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: Slackbot
+Allow: /
+
+User-agent: Slackbot-LinkExpanding
+Allow: /
+
+User-agent: TelegramBot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: Discordbot
+Allow: /
+
+User-agent: SkypeUriPreview
+Allow: /
+
 User-agent: GPTBot
 Disallow: /
 

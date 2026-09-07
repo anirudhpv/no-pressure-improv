@@ -15,16 +15,21 @@ marathon.html        Archive page for the (completed) Improv Marathon
 admin.html           Calendar editor — a form-based helper for editing events.json (see below)
 robots.txt           Blocks search engines and known AI/LLM crawlers from indexing the site
 
+partials/
+  header.html        Shared header markup (brand + nav), injected into every page — see below
+  footer.html         Shared footer markup, injected into every page
+
 assets/
   data/
     events.json      Single source of truth for all events, across all months
   css/
-    base.css         Shared tokens, header, footer, buttons — used by index.html, marathon.html, admin.html
+    base.css         Shared tokens, header, footer, buttons — loaded by every page
     home.css         Homepage-only styles (hero, carousel, community cards)
     marathon.css     Marathon archive page styles
-    calendar.css     Calendar page styles (its own, separate design system)
+    calendar.css     Calendar page's own content styles (calendar grid, panels, etc.)
     admin.css        Calendar editor page styles
   js/
+    include.js       Fetches partials/header.html and partials/footer.html into every page
     home.js          Homepage carousel: fetches events.json, shows upcoming events
     calendar.js       Calendar rendering: fetches events.json, month navigation, hover/click-to-pin, price toggle, image lightbox
     admin.js         Calendar editor: fetches events.json, lets you add/edit/delete events client-side, exports updated JSON
@@ -35,9 +40,30 @@ assets/
     qr-code.jpg, financial-assistance.jpg      Used on the calendar page's registration section
 ```
 
-`calendar.html` intentionally keeps its own visual identity (it was designed and shipped
-before the homepage refresh) — it links back to the homepage and the Marathon page via a
-thin nav bar at the top, rather than sharing `base.css`.
+## The shared header and footer
+
+Every page has the exact same header (logo linking home, then Calendar/Marathon nav) and
+footer (© line + Instagram link). Rather than copy-pasting that markup into every file
+(which drifts out of sync over time), each page just has a mount point:
+
+```html
+<header class="top" id="site-header" data-include="partials/header.html"></header>
+...
+<footer id="site-footer" data-include="partials/footer.html"></footer>
+```
+
+`assets/js/include.js` (loaded on every page) fetches those two files and drops their
+content into the matching element, and marks whichever nav link matches the current page
+with `aria-current="page"` automatically — no per-page configuration needed. All shared
+visual styling (colors, fonts, spacing) for the header/footer/brand lives in `base.css`
+only, which every page loads (including `calendar.html`, whose own `calendar.css` handles
+just its page-specific content).
+
+To change the header or footer, edit the one file in `partials/` — every page picks it up.
+
+Because this relies on `fetch()`, viewing a page by double-clicking the `.html` file
+(`file://`) won't load the header/footer — serve the folder over local HTTP when testing
+(e.g. `python -m http.server`) or just push and view it on the deployed site.
 
 ## Editing the event data
 
@@ -55,14 +81,17 @@ Each event is:
   "title": "Quit Playin' Games With My Heart",
   "host": "Shweta & Samyukthaa",
   "venue": "Shubham SSPA, JP Nagar",
+  "venueLink": null,
   "desc": "An Improv Jam for everyone. We'll play silly games and have fun.",
   "price": null,
   "image": "event-04.jpg"
 }
 ```
 
-`price: null` shows "TBC" until you fill it in. `image` must match a filename already
-uploaded to `assets/images/`.
+`price: null` shows "TBC" until you fill it in. `venueLink` is optional (a Google Maps
+link, or an online meeting link) — when set, the venue on the calendar page becomes a
+link; leave it `null` to show plain text. `image` must match a filename already uploaded
+to `assets/images/`.
 
 You can hand-edit `events.json` directly, or use **`admin.html`**, a small form-based
 helper: it loads the current events, lets you add/edit/delete them through a form, and
@@ -103,9 +132,11 @@ browser.
 
 ## Known follow-ups
 
-- `calendar.html` uses a different color palette and font pairing from `index.html` /
-  `marathon.html` (it predates the homepage redesign). Worth unifying into one design
-  system if this becomes the permanent site rather than a demo.
+- `calendar.html`'s page content (calendar grid, event panels, etc. — everything below the
+  shared header) still uses a different color palette and font pairing from `index.html` /
+  `marathon.html` (it predates the homepage redesign); only the header/footer are unified.
+  Worth unifying the rest into one design system if this becomes the permanent site rather
+  than a demo.
 - The Marathon archive page uses plain color-block cards for its lineup instead of photos —
   the original event's photos live only on the external NPI site and weren't available to
   pull into this repo.

@@ -40,7 +40,7 @@
       return `
       <div class="ev-row">
         <div class="when">${fmtRow(e)}</div>
-        <div class="what"><b>${escapeHtml(e.title)}</b><span>${escapeHtml(e.venue)} · ${e.format==="online"?"Online":"In-person"}</span></div>
+        <div class="what"><b>${escapeHtml(e.title)}</b><span>${escapeHtml(e.venue)}${e.venueLink?" 🔗":""} · ${e.format==="online"?"Online":"In-person"}</span></div>
         <div class="row-actions">
           <button type="button" data-edit="${i}">Edit</button>
           <button type="button" data-del="${i}">Delete</button>
@@ -59,6 +59,7 @@
 
   function readForm(){
     const price = el("price").value;
+    const venueLink = el("venuelink").value.trim();
     return {
       date: el("date").value,
       start: el("start").value,
@@ -68,6 +69,7 @@
       title: el("title").value.trim(),
       host: el("host").value.trim(),
       venue: el("venue").value.trim(),
+      venueLink: venueLink===""? null : venueLink,
       desc: el("desc").value.trim(),
       price: price===""? null : Number(price),
       image: el("image").value.trim(),
@@ -83,6 +85,7 @@
     el("title").value = e.title;
     el("host").value = e.host;
     el("venue").value = e.venue;
+    el("venuelink").value = e.venueLink==null ? "" : e.venueLink;
     el("desc").value = e.desc;
     el("price").value = e.price==null ? "" : e.price;
     el("image").value = e.image || "";

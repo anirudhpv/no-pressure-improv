@@ -22,6 +22,11 @@
   function fmtTime(t){ const [h,m]=t.split(":").map(Number); const ap=h>=12?"PM":"AM"; const hh=((h+11)%12)+1; return m? `${hh}:${String(m).padStart(2,"0")} ${ap}` : `${hh} ${ap}`; }
   function ordinal(n){ const s=["th","st","nd","rd"], v=n%100; return n+(s[(v-20)%10]||s[v]||s[0]); }
   function esc(s){ return String(s).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+  function venueHTML(e){
+    return e.venueLink
+      ? `<a href="${esc(e.venueLink)}" target="_blank" rel="noopener">${esc(e.venue)} ↗</a>`
+      : esc(e.venue);
+  }
   function priceHTML(e){
     return e.price==null
       ? `<span class="price">₹ TBC<small>SEE FORM</small></span>`
@@ -130,7 +135,7 @@
             <p class="host">with ${esc(e.host)}</p>
             <dl class="facts">
               <dt>When</dt><dd>${DOW[date.getDay()]}, ${ordinal(d)} ${MONTH_NAMES[m-1]} · ${fmtTime(e.start)} to ${fmtTime(e.end)} IST</dd>
-              <dt>Where</dt><dd>${esc(e.venue)}</dd>
+              <dt>Where</dt><dd>${venueHTML(e)}</dd>
             </dl>
             <p class="desc">${esc(e.desc)}</p>
             <div class="ev-actions">

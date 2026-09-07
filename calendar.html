@@ -9,22 +9,19 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
 <link rel="icon" href="assets/images/logo.png">
+<link rel="stylesheet" href="assets/css/base.css">
 <link rel="stylesheet" href="assets/css/calendar.css">
 </head>
 <body>
 <div class="wrap">
-  <header class="top">
-    <a class="brand" href="index.html" aria-label="No Pressure Improv — back to home">
-      <img class="logo" src="assets/images/logo.png" alt="" width="72" height="72">
-      <div class="brand-text"><b>No Pressure Improv</b><span>Bengaluru</span></div>
-    </a>
-    <div class="controls">
-      <button class="switch" id="priceToggle" role="switch" aria-checked="false" type="button">
-        <span>Show prices</span><span class="knob" aria-hidden="true"></span>
-      </button>
-      <a class="btn btn-primary" href="https://tally.so/r/gDoGBM" target="_blank" rel="noopener">Register</a>
-    </div>
-  </header>
+  <header class="top" id="site-header" data-include="partials/header.html"></header>
+
+  <div class="controls">
+    <button class="switch" id="priceToggle" role="switch" aria-checked="false" type="button">
+      <span>Show prices</span><span class="knob" aria-hidden="true"></span>
+    </button>
+    <a class="btn btn-primary" href="https://tally.so/r/gDoGBM" target="_blank" rel="noopener">Register</a>
+  </div>
 
   <div class="intro">
     <div>
@@ -108,14 +105,12 @@
     </div>
   </section>
 
-  <footer>
-    <span>No Pressure Improv · Bengaluru</span>
-    <span>Times are IST. Details may change; the form is the source of truth.</span>
-  </footer>
+  <footer id="site-footer" data-include="partials/footer.html"></footer>
 </div>
 
 <div class="lb" id="lb" role="dialog" aria-label="Enlarged image"><img alt=""></div>
 
+<script src="assets/js/include.js"></script>
 <script src="assets/js/calendar.js"></script>
 </body>
 </html>

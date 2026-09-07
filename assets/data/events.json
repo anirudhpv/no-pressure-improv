@@ -8,6 +8,7 @@
     "title": "Quit Playin' Games With My Heart",
     "host": "Shweta & Samyukthaa",
     "venue": "Shubham SSPA, JP Nagar",
+    "venueLink": null,
     "desc": "An Improv Jam for everyone. We'll play silly games and have fun.",
     "price": null,
     "image": "event-04.jpg"
@@ -21,6 +22,7 @@
     "title": "Improv Jam in West Bengaluru",
     "host": "Laxmi",
     "venue": "Oorkathe",
+    "venueLink": null,
     "desc": "A relaxed, no-experience-needed jam for the west side of the city.",
     "price": null,
     "image": "event-11.jpg"
@@ -34,6 +36,7 @@
     "title": "The 5-Minute Club",
     "host": "Rutika Yoelkar",
     "venue": "Online (link shared after registration)",
+    "venueLink": null,
     "desc": "A monthly online gathering built around one simple idea: the most meaningful conversations don't need hours of content, they just need the right five minutes. Bring a short piece of media; we listen deeply, stay curious and open, and build on one another's ideas.",
     "price": null,
     "image": "event-13.jpg"
@@ -47,6 +50,7 @@
     "title": "Feelings Are Good",
     "host": "Aditya Ramesh",
     "venue": "Venue shared after registration",
+    "venueLink": null,
     "desc": "An experimental Improv Lab which deep dives into playing emotional scenes.",
     "price": null,
     "image": "event-19.jpg"
@@ -60,6 +64,7 @@
     "title": "Breaktime with Saga",
     "host": "Saga",
     "venue": "Concept 01, Koramangala",
+    "venueLink": null,
     "desc": "Ever watched a comedy show and thought, I want to try that? Now is your chance. Breaktime with Saga is an interactive, pressure-free evening created by an artist who loves comedy more than anything. Curated specifically for people with zero experience in comedy performance or any art form, this is a safe space to let loose, laugh, and learn.",
     "price": null,
     "image": "event-21.jpg"
@@ -73,6 +78,7 @@
     "title": "Improv Jam in West Bengaluru",
     "host": "Abhi",
     "venue": "Oorkathe",
+    "venueLink": null,
     "desc": "A relaxed, no-experience-needed jam for the west side of the city.",
     "price": null,
     "image": "event-25.jpg"
@@ -86,6 +92,7 @@
     "title": "Patti Stiles' Improvise Freely: Next Chapter",
     "host": "Laxmi",
     "venue": "Dhurii, Indiranagar",
+    "venueLink": null,
     "desc": "We continue to look at the Patti Stiles book Improvise Freely, which continues to redefine what the basics of improvisational theatre are. One chapter, explored on our feet.",
     "price": null,
     "image": "event-28.jpg"

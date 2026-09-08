@@ -2,6 +2,15 @@
 .shop-intro h1{font-size:clamp(34px,4.6vw,52px); font-weight:800; letter-spacing:-.02em; margin:10px 0 12px; line-height:1.02}
 .shop-intro p{margin:0; color:var(--ink-2); font-size:17px}
 
+.cat-filter{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:28px}
+.cat-btn{
+  font:inherit; font-weight:700; font-size:14px; padding:9px 18px; border-radius:999px;
+  border:1px solid var(--line); background:var(--card); color:var(--ink-2); cursor:pointer;
+}
+.cat-btn:hover{color:var(--ink)}
+.cat-btn:focus-visible{outline:2px solid var(--pink); outline-offset:2px}
+.cat-btn.active{background:var(--pink); color:#fff; border-color:var(--pink)}
+
 .products{margin-bottom:32px}
 .product-group{margin-bottom:40px}
 .product-group h2{font-size:clamp(20px,2.4vw,26px); font-weight:800; letter-spacing:-.01em; margin-bottom:16px}

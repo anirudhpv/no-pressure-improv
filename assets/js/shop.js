@@ -9,9 +9,11 @@
 
   function esc(s){ return String(s).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
   function priceHTML(p){
-    return p.price==null
-      ? `<span class="price">₹ TBC<small>SEE FORM</small></span>`
-      : `<span class="price">₹${Number(p.price).toLocaleString("en-IN")}<small>PER ITEM</small></span>`;
+    if (p.price==null) return `<span class="price">₹ TBC<small>SEE FORM</small></span>`;
+    const amount = Number(p.price).toLocaleString("en-IN");
+    return p.priceFrom
+      ? `<span class="price">From ₹${amount}<small>PER ITEM</small></span>`
+      : `<span class="price">₹${amount}<small>PER ITEM</small></span>`;
   }
   function imageHTML(p){
     return p.image
@@ -19,8 +21,8 @@
       : `<div class="product-photo placeholder" aria-hidden="true"><span>📷</span>Photo coming soon</div>`;
   }
 
-  fetch("assets/data/products.json").then(r=>r.json()).then(products => {
-    grid.innerHTML = products.map(p => `
+  function productHTML(p){
+    return `
       <article class="product">
         ${imageHTML(p)}
         <div class="product-body">
@@ -33,7 +35,17 @@
             <a class="btn btn-pink" href="${ORDER_FORM}" target="_blank" rel="noopener">Order this ↗</a>
           </div>
         </div>
-      </article>`).join("");
+      </article>`;
+  }
+
+  fetch("assets/data/products.json").then(r=>r.json()).then(products => {
+    const groups = {};
+    products.forEach(p => { (groups[p.type] = groups[p.type] || []).push(p); });
+    grid.innerHTML = Object.keys(groups).map(type => `
+      <div class="product-group">
+        <h2>${esc(type)}s</h2>
+        <div class="product-grid">${groups[type].map(productHTML).join("")}</div>
+      </div>`).join("");
   }).catch(() => {
     grid.innerHTML = `<p class="empty-note">Couldn't load the shop right now — please refresh or check back shortly.</p>`;
   });

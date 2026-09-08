@@ -115,32 +115,37 @@ that URL in `calendar.html` and `calendar.js` if the form changes.
 
 ## The shop
 
-`shop.html` lists products from **`assets/data/products.json`** — right now just the two
-placeholder items (a t-shirt and a tote bag). Each product is:
+`shop.html` lists products from **`assets/data/products.json`**, grouped by `type` (right
+now: 16 t-shirt designs and one tote bag). Each product is:
 
 ```json
 {
-  "id": "tee-classic",
+  "id": "tee-question-everything",
   "type": "T-shirt",
-  "name": "NPI Classic Tee",
-  "desc": "Screen-printed cotton tee with the NPI logo across the chest. Unisex fit.",
-  "variants": "Sizes: S, M, L, XL · Colour: Black",
-  "price": null,
-  "image": null
+  "name": "Question Everything",
+  "desc": "Screen-printed unisex tee.",
+  "variants": "Regular tee, oversized tee, sweatshirt, hoodie or zip hoodie · sizes vary by fit",
+  "price": 1000,
+  "priceFrom": true,
+  "image": "shirt-question-everything.jpg"
 }
 ```
 
-`price: null` shows "TBC" (same convention as events); `image: null` shows a "Photo
-coming soon" placeholder block instead of a broken image. Before this goes live, three
-things still need real values:
+`price: null` shows "TBC" (same convention as events, currently used for the tote bag,
+whose price isn't set yet); `priceFrom: true` shows "From ₹X" for products with multiple
+fits at different prices (the t-shirt designs — regular tee is ₹1000, going up to ₹1800
+for a hoodie); `image: null` shows a "Photo coming soon" placeholder block instead of a
+broken image.
 
-- **Photos** — add product photos to `assets/images/` and set each product's `image` to
-  the filename.
-- **Prices** — fill in `price` (a plain number, rupees) once they're settled.
+The t-shirt design images were pulled from https://hartleytees.vercel.app/ (the vendor's
+own catalog); the tote bag photo is a real product shot. Before this goes fully live:
+
+- **Tote price** — fill in the tote's `price` once it's settled.
 - **Order form** — "Order this" currently points to a placeholder Tally URL
   (`https://tally.so/r/REPLACE_WITH_MERCH_FORM`) in `assets/js/shop.js` (the `ORDER_FORM`
-  constant). Build a real Tally form (name, size, address, transaction ID) and swap that
-  URL in. Payment reuses the same UPI ID/QR code already used for event registration.
+  constant). Build a real Tally form (name, design/fit/size, address, transaction ID) and
+  swap that URL in. Payment reuses the same UPI ID/QR code already used for event
+  registration.
 
 ## Keeping this off search engines and AI crawlers
 

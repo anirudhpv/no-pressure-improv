@@ -46,6 +46,18 @@
 .lb.open{display:flex}
 .lb img{max-width:min(92vw,720px); max-height:92vh; border-radius:14px; box-shadow:0 30px 80px rgba(0,0,0,.6)}
 
+@media (max-width: 640px){
+  .product-grid{grid-template-columns:repeat(2,1fr); gap:12px}
+  .product-body{padding:12px 14px 16px; gap:6px}
+  .product-body .chip{font-size:10px; padding:4px 9px}
+  .product-body h3{font-size:15.5px}
+  .product-body .desc{font-size:12.5px}
+  .product-body .variants{font-size:11.5px}
+  .product-foot{flex-direction:column; align-items:flex-start; gap:10px}
+  .product-foot .btn{width:100%; justify-content:center}
+  .price{font-size:16px}
+}
+
 @media (max-width: 560px){
   .payline{grid-template-columns:1fr}
   .payline img{width:140px}

@@ -115,14 +115,25 @@ that URL in `calendar.html` and `calendar.js` if the form changes.
 
 ## The shop
 
-`shop.html` lists products from **`assets/data/products.json`** in one flat grid, with a
-multi-select category filter above it (built dynamically from whatever `type` values
-exist — right now: 16 t-shirt designs and one tote bag). Each product is:
+`shop.html` lists products from **`assets/data/products.json`** in one flat grid, filtered
+by a left-hand sidebar of checkboxes (a collapsible "Filters" button on mobile). There are
+two independent facet groups, built dynamically from whatever values exist in the data:
+
+- **Category** (`type`) — T-shirt, Tote bag, etc. — the generic kind of product.
+- **Brand** (`brand`) — HartleyTees, Greenika, etc. — who actually makes it. A brand isn't
+  tied to one category (Greenika could sell totes and tees both), so the two facets are
+  independent: checking boxes within one group is OR'd together (Tote bag OR T-shirt),
+  while the two groups are AND'd against each other (must match the category selection
+  *and* the brand selection). Each card shows both as chip labels. Leaving a group's
+  checkboxes all unchecked means "don't filter on this."
+
+Each product is:
 
 ```json
 {
   "id": "tee-question-everything",
   "type": "T-shirt",
+  "brand": "HartleyTees",
   "name": "Question Everything",
   "desc": "Screen-printed unisex tee.",
   "variants": "Regular tee, oversized tee, sweatshirt, hoodie or zip hoodie · sizes vary by fit",

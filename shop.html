@@ -35,9 +35,24 @@
     <p>Printed tees and hand block-printed totes, made in small batches. Every order helps cover NPI's operational costs and pay our facilitators.</p>
   </section>
 
-  <div class="cat-filter" id="catFilter" role="group" aria-label="Filter by category"></div>
+  <div class="shop-layout">
+    <aside class="facets">
+      <button type="button" class="facets-toggle-btn" id="facetsToggle">Filters</button>
+      <div class="facets-body" id="facetsBody">
+        <div class="facet-group">
+          <h3>Category</h3>
+          <div class="facet-list" id="facetCategory"></div>
+        </div>
+        <div class="facet-group">
+          <h3>Brand</h3>
+          <div class="facet-list" id="facetBrand"></div>
+        </div>
+        <button type="button" class="facet-clear" id="facetClear">Clear filters</button>
+      </div>
+    </aside>
 
-  <section class="products" id="products"></section>
+    <section class="products" id="products"></section>
+  </div>
 
   <section class="shop-note">
     <h2>How ordering works</h2>

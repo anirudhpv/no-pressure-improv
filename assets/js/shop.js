@@ -7,7 +7,11 @@
   const ORDER_FORM = "https://tally.so/r/REPLACE_WITH_MERCH_FORM";
   const CART_KEY = "npi-shop-cart";
   const grid = document.getElementById("products");
-  const filterBar = document.getElementById("catFilter");
+  const facetCategoryEl = document.getElementById("facetCategory");
+  const facetBrandEl = document.getElementById("facetBrand");
+  const facetClear = document.getElementById("facetClear");
+  const facetsToggle = document.getElementById("facetsToggle");
+  const facetsBody = document.getElementById("facetsBody");
 
   function esc(s){ return String(s).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
   function priceHTML(p){
@@ -25,10 +29,13 @@
 
   function productHTML(p){
     return `
-      <article class="product" data-type="${esc(p.type)}">
+      <article class="product" data-type="${esc(p.type)}" data-brand="${esc(p.brand)}">
         ${imageHTML(p)}
         <div class="product-body">
-          <span class="chip">${esc(p.type)}</span>
+          <div class="chips">
+            <span class="chip">${esc(p.type)}</span>
+            <span class="chip chip-brand">${esc(p.brand)}</span>
+          </div>
           <h3>${esc(p.name)}</h3>
           <p class="desc">${esc(p.desc)}</p>
           <p class="variants">${esc(p.variants)}</p>
@@ -40,29 +47,32 @@
       </article>`;
   }
 
-  // ---------- category filter ----------
-  let active = new Set(["All"]);
+  // ---------- facet filters (category + brand, independent — AND across groups, OR within a group) ----------
+  let selectedCategories = new Set();
+  let selectedBrands = new Set();
 
-  function renderFilter(types){
+  function facetGroupHTML(name, values, counts){
+    return values.map(v => `
+      <label class="facet-item">
+        <input type="checkbox" data-facet="${name}" value="${esc(v)}">
+        <span>${esc(v)}</span>
+        <span class="facet-count">${counts[v]}</span>
+      </label>`).join("");
+  }
+
+  function applyFacets(){
     grid.querySelectorAll(".product").forEach(card => {
-      card.hidden = !(active.has("All") || active.has(card.dataset.type));
-    });
-    filterBar.querySelectorAll(".cat-btn").forEach(b => {
-      const on = active.has("All") || active.has(b.dataset.cat);
-      b.classList.toggle("active", on);
-      b.setAttribute("aria-pressed", String(on));
+      const catOk = selectedCategories.size === 0 || selectedCategories.has(card.dataset.type);
+      const brandOk = selectedBrands.size === 0 || selectedBrands.has(card.dataset.brand);
+      card.hidden = !(catOk && brandOk);
     });
   }
 
-  function toggleCategory(cat, types){
-    if (cat === "All"){
-      active = new Set(["All"]);
-    } else {
-      active.delete("All");
-      if (active.has(cat)) active.delete(cat); else active.add(cat);
-      if (active.size === 0) active = new Set(["All"]);
-      if (types.every(t => active.has(t))) active = new Set(["All"]);
-    }
+  function onFacetChange(e){
+    const cb = e.target.closest("[data-facet]"); if (!cb) return;
+    const set = cb.dataset.facet === "category" ? selectedCategories : selectedBrands;
+    if (cb.checked) set.add(cb.value); else set.delete(cb.value);
+    applyFacets();
   }
 
   // ---------- cart ----------
@@ -197,20 +207,24 @@
     setTimeout(()=>{ b.textContent = original; }, 1200);
   });
 
+  facetsToggle.addEventListener("click", () => facetsBody.classList.toggle("open"));
+
   fetch("assets/data/products.json").then(r=>r.json()).then(products => {
     byId = Object.fromEntries(products.map(p => [p.id, p]));
-    const types = [...new Set(products.map(p => p.type))];
 
     grid.innerHTML = `<div class="product-grid">${products.map(productHTML).join("")}</div>`;
 
-    filterBar.innerHTML = ["All", ...types].map(cat => `
-      <button type="button" class="cat-btn" data-cat="${esc(cat)}" aria-pressed="false">${esc(cat === "All" ? "All" : cat + "s")}</button>`).join("");
-    filterBar.addEventListener("click", e => {
-      const b = e.target.closest(".cat-btn"); if (!b) return;
-      toggleCategory(b.dataset.cat, types);
-      renderFilter(types);
+    const countBy = key => products.reduce((m,p) => { m[p[key]] = (m[p[key]]||0)+1; return m; }, {});
+    const types = [...new Set(products.map(p => p.type))];
+    const brands = [...new Set(products.map(p => p.brand))];
+    facetCategoryEl.innerHTML = facetGroupHTML("category", types, countBy("type"));
+    facetBrandEl.innerHTML = facetGroupHTML("brand", brands, countBy("brand"));
+    document.getElementById("facetsBody").addEventListener("change", onFacetChange);
+    facetClear.addEventListener("click", () => {
+      selectedCategories = new Set(); selectedBrands = new Set();
+      facetsBody.querySelectorAll("input[type=checkbox]").forEach(cb => cb.checked = false);
+      applyFacets();
     });
-    renderFilter(types);
 
     cart = loadCart();
     renderCart();

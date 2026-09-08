@@ -41,7 +41,7 @@
 
   <section class="shop-note">
     <h2>How ordering works</h2>
-    <p class="lede">Tap "Order this" on anything you want — it opens a short form for your size, address and contact details. Pay by UPI and we'll confirm once it's shipped or ready for pickup.</p>
+    <p class="lede">Add anything you want to your cart, then check out from there. Checking out opens a short form for your size, address and contact details. Pay by UPI and we'll confirm once it's shipped or ready for pickup.</p>
     <div class="payline">
       <img src="assets/images/qr-code.jpg" alt="UPI QR code for No Pressure Improv" data-zoom>
       <p>Pay by UPI to <b>8008833554-1@okbizaxis</b> (No Pressure Improv, +91 80088 33554) or scan this code, then note down your transaction ID for the form. Questions? Email <a href="mailto:team@nopressureimprov.com">team@nopressureimprov.com</a>.</p>
@@ -52,6 +52,27 @@
 </div>
 
 <div class="lb" id="lb" role="dialog" aria-label="Enlarged image"><img alt=""></div>
+
+<button type="button" class="cart-fab" id="cartToggle" aria-haspopup="dialog" aria-expanded="false" aria-controls="cartPanel">
+  <span aria-hidden="true">🛒</span>
+  <span class="cart-badge" id="cartBadge" hidden>0</span>
+  <span class="sr-only">View cart</span>
+</button>
+
+<div class="cart-backdrop" id="cartBackdrop" hidden></div>
+<aside class="cart-panel" id="cartPanel" role="dialog" aria-label="Your cart" aria-hidden="true">
+  <div class="cart-head">
+    <h2>Your cart</h2>
+    <button type="button" class="cart-close" id="cartClose" aria-label="Close cart">×</button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-foot">
+    <div class="cart-subtotal" id="cartSubtotal"></div>
+    <a class="btn btn-pink" id="cartCheckout" href="#" target="_blank" rel="noopener">Go to order form ↗</a>
+    <button type="button" class="btn btn-ghost" id="cartCopy">Copy order summary</button>
+    <button type="button" class="cart-clear" id="cartClear">Clear cart</button>
+  </div>
+</aside>
 
 <script src="assets/js/include.js"></script>
 <script src="assets/js/shop.js"></script>

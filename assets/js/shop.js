@@ -5,6 +5,7 @@
   document.addEventListener("keydown", e=>{ if(e.key==="Escape") lb.classList.remove("open"); });
 
   const ORDER_FORM = "https://tally.so/r/REPLACE_WITH_MERCH_FORM";
+  const CART_KEY = "npi-shop-cart";
   const grid = document.getElementById("products");
   const filterBar = document.getElementById("catFilter");
 
@@ -33,15 +34,16 @@
           <p class="variants">${esc(p.variants)}</p>
           <div class="product-foot">
             ${priceHTML(p)}
-            <a class="btn btn-pink" href="${ORDER_FORM}" target="_blank" rel="noopener">Order this ↗</a>
+            <button type="button" class="btn btn-pink" data-add="${esc(p.id)}">Add to cart</button>
           </div>
         </div>
       </article>`;
   }
 
+  // ---------- category filter ----------
   let active = new Set(["All"]);
 
-  function render(types){
+  function renderFilter(types){
     grid.querySelectorAll(".product").forEach(card => {
       card.hidden = !(active.has("All") || active.has(card.dataset.type));
     });
@@ -63,7 +65,140 @@
     }
   }
 
+  // ---------- cart ----------
+  const cartToggle = document.getElementById("cartToggle");
+  const cartBadge = document.getElementById("cartBadge");
+  const cartBackdrop = document.getElementById("cartBackdrop");
+  const cartPanel = document.getElementById("cartPanel");
+  const cartClose = document.getElementById("cartClose");
+  const cartItemsEl = document.getElementById("cartItems");
+  const cartSubtotalEl = document.getElementById("cartSubtotal");
+  const cartCheckout = document.getElementById("cartCheckout");
+  const cartCopy = document.getElementById("cartCopy");
+  const cartClear = document.getElementById("cartClear");
+
+  let byId = {};
+  let cart = [];
+
+  function loadCart(){
+    try{ return JSON.parse(localStorage.getItem(CART_KEY)) || []; }
+    catch(_){ return []; }
+  }
+  function saveCart(){
+    try{ localStorage.setItem(CART_KEY, JSON.stringify(cart)); }catch(_){}
+  }
+  function addToCart(id){
+    const line = cart.find(l => l.id === id);
+    if (line) line.qty++; else cart.push({id, qty:1});
+    saveCart(); renderCart();
+  }
+  function setQty(id, qty){
+    const line = cart.find(l => l.id === id);
+    if (!line) return;
+    if (qty <= 0) cart = cart.filter(l => l.id !== id);
+    else line.qty = qty;
+    saveCart(); renderCart();
+  }
+  function removeFromCart(id){
+    cart = cart.filter(l => l.id !== id);
+    saveCart(); renderCart();
+  }
+  function cartCount(){ return cart.reduce((n,l)=>n+l.qty,0); }
+
+  function openCart(){
+    cartPanel.classList.add("open");
+    cartBackdrop.hidden = false;
+    cartToggle.setAttribute("aria-expanded","true");
+    cartPanel.setAttribute("aria-hidden","false");
+  }
+  function closeCart(){
+    cartPanel.classList.remove("open");
+    cartBackdrop.hidden = true;
+    cartToggle.setAttribute("aria-expanded","false");
+    cartPanel.setAttribute("aria-hidden","true");
+  }
+
+  function renderCart(){
+    const count = cartCount();
+    cartBadge.hidden = count === 0;
+    cartBadge.textContent = String(count);
+
+    if (!cart.length){
+      cartItemsEl.innerHTML = `<p class="empty-note">Your cart is empty. Add something from the shop.</p>`;
+      cartSubtotalEl.innerHTML = "";
+      cartCheckout.setAttribute("aria-disabled","true");
+      cartCheckout.href = "#";
+      return;
+    }
+    cartCheckout.removeAttribute("aria-disabled");
+    cartCheckout.href = ORDER_FORM;
+
+    let subtotal = 0, hasUnknown = false;
+    cartItemsEl.innerHTML = cart.map(line => {
+      const p = byId[line.id];
+      if (!p) return "";
+      const lineKnown = p.price != null;
+      if (lineKnown) subtotal += p.price * line.qty; else hasUnknown = true;
+      const lineTotal = lineKnown ? `₹${(p.price*line.qty).toLocaleString("en-IN")}` : "TBC";
+      return `
+        <div class="cart-item" data-id="${esc(p.id)}">
+          ${p.image ? `<img src="assets/images/${p.image}" alt="">` : `<div class="cart-thumb-placeholder">📷</div>`}
+          <div class="cart-item-body">
+            <b>${esc(p.name)}</b>
+            <span class="cart-item-type">${esc(p.type)}</span>
+            <div class="qty-stepper">
+              <button type="button" class="qty-btn" data-qty="dec">−</button>
+              <span>${line.qty}</span>
+              <button type="button" class="qty-btn" data-qty="inc">+</button>
+            </div>
+          </div>
+          <div class="cart-item-right">
+            <span class="cart-item-total">${lineTotal}</span>
+            <button type="button" class="cart-item-remove" aria-label="Remove ${esc(p.name)}">Remove</button>
+          </div>
+        </div>`;
+    }).join("");
+
+    cartSubtotalEl.innerHTML = `<b>Subtotal</b> ₹${subtotal.toLocaleString("en-IN")}${hasUnknown ? " + TBC items" : ""}`;
+  }
+
+  cartToggle.addEventListener("click", openCart);
+  cartClose.addEventListener("click", closeCart);
+  cartBackdrop.addEventListener("click", closeCart);
+  document.addEventListener("keydown", e => { if (e.key==="Escape") closeCart(); });
+
+  cartItemsEl.addEventListener("click", e => {
+    const row = e.target.closest(".cart-item"); if (!row) return;
+    const id = row.dataset.id;
+    const line = cart.find(l => l.id === id);
+    if (e.target.closest("[data-qty='inc']")) setQty(id, line.qty+1);
+    else if (e.target.closest("[data-qty='dec']")) setQty(id, line.qty-1);
+    else if (e.target.closest(".cart-item-remove")) removeFromCart(id);
+  });
+
+  cartClear.addEventListener("click", () => {
+    if (!cart.length) return;
+    if (confirm("Clear your cart?")){ cart = []; saveCart(); renderCart(); }
+  });
+
+  cartCopy.addEventListener("click", async () => {
+    const lines = cart.map(l => { const p = byId[l.id]; return p ? `- ${p.name} (${p.type}) x${l.qty}` : ""; }).filter(Boolean);
+    const text = lines.length ? `NPI Shop order:\n${lines.join("\n")}` : "Your cart is empty.";
+    try{ await navigator.clipboard.writeText(text); cartCopy.textContent = "Copied ✓"; }
+    catch(_){ cartCopy.textContent = "Couldn't copy"; }
+    setTimeout(()=>{ cartCopy.textContent = "Copy order summary"; }, 1800);
+  });
+
+  grid.addEventListener("click", e => {
+    const b = e.target.closest("[data-add]"); if (!b) return;
+    addToCart(b.dataset.add);
+    const original = b.textContent;
+    b.textContent = "Added ✓";
+    setTimeout(()=>{ b.textContent = original; }, 1200);
+  });
+
   fetch("assets/data/products.json").then(r=>r.json()).then(products => {
+    byId = Object.fromEntries(products.map(p => [p.id, p]));
     const types = [...new Set(products.map(p => p.type))];
 
     grid.innerHTML = `<div class="product-grid">${products.map(productHTML).join("")}</div>`;
@@ -73,9 +208,12 @@
     filterBar.addEventListener("click", e => {
       const b = e.target.closest(".cat-btn"); if (!b) return;
       toggleCategory(b.dataset.cat, types);
-      render(types);
+      renderFilter(types);
     });
-    render(types);
+    renderFilter(types);
+
+    cart = loadCart();
+    renderCart();
   }).catch(() => {
     grid.innerHTML = `<p class="empty-note">Couldn't load the shop right now — please refresh or check back shortly.</p>`;
   });

@@ -115,8 +115,9 @@ that URL in `calendar.html` and `calendar.js` if the form changes.
 
 ## The shop
 
-`shop.html` lists products from **`assets/data/products.json`**, grouped by `type` (right
-now: 16 t-shirt designs and one tote bag). Each product is:
+`shop.html` lists products from **`assets/data/products.json`** in one flat grid, with a
+multi-select category filter above it (built dynamically from whatever `type` values
+exist — right now: 16 t-shirt designs and one tote bag). Each product is:
 
 ```json
 {
@@ -141,11 +142,27 @@ The t-shirt design images were pulled from https://hartleytees.vercel.app/ (the 
 own catalog); the tote bag photo is a real product shot. Before this goes fully live:
 
 - **Tote price** — fill in the tote's `price` once it's settled.
-- **Order form** — "Order this" currently points to a placeholder Tally URL
+- **Order form** — checkout currently points to a placeholder Tally URL
   (`https://tally.so/r/REPLACE_WITH_MERCH_FORM`) in `assets/js/shop.js` (the `ORDER_FORM`
   constant). Build a real Tally form (name, design/fit/size, address, transaction ID) and
   swap that URL in. Payment reuses the same UPI ID/QR code already used for event
   registration.
+
+### The cart
+
+Each product has an "Add to cart" button instead of linking straight out to the order
+form. The cart itself (icon bottom-right, with an item-count badge) is stored in the
+browser's `localStorage` under the key `npi-shop-cart` — it's just an array of
+`{id, qty}`, resolved against `products.json` at render time, so it survives a refresh
+but is local to that one browser/device (no accounts, no server, single "session" by
+design — this is still a demo site). From the cart you can adjust quantities, remove
+items, copy a plain-text order summary to paste into the order form, or go straight to
+checkout (which just opens the same Tally form — it doesn't know about your cart contents
+until a real backend exists to receive them). "Clear cart" empties it entirely.
+
+If this becomes a real e-commerce site, this is the piece that moves server-side first:
+the cart would live behind an account/session instead of `localStorage`, and checkout
+would submit the cart directly instead of asking someone to retype it into a form.
 
 ## Keeping this off search engines and AI crawlers
 

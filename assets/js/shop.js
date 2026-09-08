@@ -24,7 +24,7 @@
 
   function productHTML(p){
     return `
-      <article class="product">
+      <article class="product" data-type="${esc(p.type)}">
         ${imageHTML(p)}
         <div class="product-body">
           <span class="chip">${esc(p.type)}</span>
@@ -39,35 +39,43 @@
       </article>`;
   }
 
-  function applyFilter(cat){
-    grid.querySelectorAll(".product-group").forEach(g => {
-      g.hidden = !(cat === "All" || g.dataset.type === cat);
+  let active = new Set(["All"]);
+
+  function render(types){
+    grid.querySelectorAll(".product").forEach(card => {
+      card.hidden = !(active.has("All") || active.has(card.dataset.type));
     });
     filterBar.querySelectorAll(".cat-btn").forEach(b => {
-      const active = b.dataset.cat === cat;
-      b.classList.toggle("active", active);
-      b.setAttribute("aria-pressed", String(active));
+      const on = active.has("All") || active.has(b.dataset.cat);
+      b.classList.toggle("active", on);
+      b.setAttribute("aria-pressed", String(on));
     });
   }
 
-  fetch("assets/data/products.json").then(r=>r.json()).then(products => {
-    const groups = {};
-    products.forEach(p => { (groups[p.type] = groups[p.type] || []).push(p); });
-    const types = Object.keys(groups);
+  function toggleCategory(cat, types){
+    if (cat === "All"){
+      active = new Set(["All"]);
+    } else {
+      active.delete("All");
+      if (active.has(cat)) active.delete(cat); else active.add(cat);
+      if (active.size === 0) active = new Set(["All"]);
+      if (types.every(t => active.has(t))) active = new Set(["All"]);
+    }
+  }
 
-    grid.innerHTML = types.map(type => `
-      <div class="product-group" data-type="${esc(type)}">
-        <h2>${esc(type)}s</h2>
-        <div class="product-grid">${groups[type].map(productHTML).join("")}</div>
-      </div>`).join("");
+  fetch("assets/data/products.json").then(r=>r.json()).then(products => {
+    const types = [...new Set(products.map(p => p.type))];
+
+    grid.innerHTML = `<div class="product-grid">${products.map(productHTML).join("")}</div>`;
 
     filterBar.innerHTML = ["All", ...types].map(cat => `
       <button type="button" class="cat-btn" data-cat="${esc(cat)}" aria-pressed="false">${esc(cat === "All" ? "All" : cat + "s")}</button>`).join("");
     filterBar.addEventListener("click", e => {
       const b = e.target.closest(".cat-btn"); if (!b) return;
-      applyFilter(b.dataset.cat);
+      toggleCategory(b.dataset.cat, types);
+      render(types);
     });
-    applyFilter("All");
+    render(types);
   }).catch(() => {
     grid.innerHTML = `<p class="empty-note">Couldn't load the shop right now — please refresh or check back shortly.</p>`;
   });

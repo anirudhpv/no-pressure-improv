@@ -12,9 +12,7 @@
 .cat-btn.active{background:var(--pink); color:#fff; border-color:var(--pink)}
 
 .products{margin-bottom:32px}
-.product-group{margin-bottom:40px}
-.product-group h2{font-size:clamp(20px,2.4vw,26px); font-weight:800; letter-spacing:-.01em; margin-bottom:16px}
-.product-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,300px)); gap:22px}
+.product-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,266px)); gap:22px}
 .product{background:var(--card); border:1px solid var(--line); border-radius:22px; overflow:hidden; display:flex; flex-direction:column}
 .product-photo{width:100%; aspect-ratio:1/1; object-fit:cover; display:block; background:var(--bg)}
 .product-photo.placeholder{

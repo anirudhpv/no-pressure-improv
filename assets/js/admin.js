@@ -42,7 +42,7 @@
         <div class="when">${fmtRow(e)}</div>
         <div class="what"><b>${escapeHtml(e.title)}</b><span>${escapeHtml(e.venue)}${e.venueLink?" 🔗":""} · ${e.format==="online"?"Online":"In-person"}</span></div>
         <div class="row-actions">
-          <a href="event.html?id=${encodeURIComponent(e.id)}" target="_blank" rel="noopener">View</a>
+          <a href="event-${encodeURIComponent(e.id)}.html" target="_blank" rel="noopener">View</a>
           <button type="button" data-edit="${i}">Edit</button>
           <button type="button" data-del="${i}">Delete</button>
         </div>

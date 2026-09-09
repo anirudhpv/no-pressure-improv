@@ -11,7 +11,8 @@ static file host will serve it as-is.
 ```
 index.html          Homepage: hero, upcoming-events carousel, community links, calendar teaser
 calendar.html        Interactive, multi-month events calendar (hover/click a date, price toggle)
-event.html           One template, reused for every event's own page (see below)
+event.html           Single-event template (event.html?id=...) — see "Per-event pages"
+event-<id>.html      Auto-generated per event, with real per-event preview images — see below; don't hand-edit
 shop.html            Merch shop: printed tees and block-printed totes (see below)
 marathon.html        Archive page for the (completed) Improv Marathon
 admin.html           Calendar editor — a form-based helper for editing events.json (see below)
@@ -121,13 +122,12 @@ that URL in `calendar.html` and `calendar.js` if the form changes.
 
 ## Per-event pages
 
-Every event gets its own page at `event.html?id=<id>` — there's no separate HTML file per
-event. `event.html` is one template; `assets/js/event.js` reads the `id` from the URL,
-finds the matching entry in `events.json`, and renders it. **Adding a new event to
-`events.json` (by hand or via `admin.html`) is all that's needed — its page exists the
-moment the JSON does, with nothing else to build or deploy.** The calendar's event cards
-and the homepage carousel both link to `event.html?id=...` for the events they show, and
-`admin.html`'s list has a "View" link per event for a quick check.
+Every event has its own page, rendered by one shared template — `event.html` reads an
+`id` from its `?id=` URL parameter, `assets/js/event.js` finds that event in
+`events.json`, and renders it. **Adding a new event to `events.json` (by hand or via
+`admin.html`) is all that's needed for a working page — nothing else to build or
+deploy.** `event.html?id=...` still works and is the simplest mental model, but it isn't
+what's actually linked anywhere any more — see below for why.
 
 Each event's `id` is generated once (date + a slugified title, e.g.
 `2026-09-04-quit-playin-games-with-my-heart`) and then kept stable across edits — even if
@@ -135,12 +135,35 @@ you change the title later — so a link someone already has keeps working. `adm
 handles this automatically; if you ever hand-edit `events.json` directly, keep the `id` of
 an existing event unchanged, and give a new one a `date-slugified-title` id of its own.
 
-Note for later: since there's no per-event server-rendered HTML, social-preview crawlers
-(the same ones covered under "Keeping this off search engines" below) only ever see the
-generic `event.html` `<title>`/meta tags — the per-event title is set client-side after
-the JSON loads. Not an issue while the site stays noindex'd; would need real per-page
-meta tags (server-rendered, or via a build step) if this ever needs to be shared with a
-preview that matters, e.g. unfurled in a chat app.
+### Why there are also `event-<id>.html` files
+
+A single client-rendered template can't give link-preview crawlers (WhatsApp, etc.) a
+correct per-event image — those bots read only the raw HTML that comes back for a URL,
+never anything JS renders afterwards, and `event.html`'s `<head>` is the same for every
+`?id=`. GitHub Pages has no server to vary that per request either.
+
+So `.github/scripts/build-event-pages.js` generates one real static file per event —
+`event-<id>.html`, at the repo root — with that event's actual title, description and
+**poster image** baked into its `<meta>`/`og:` tags. The body is otherwise the same
+template; it sets `<body data-event-id="...">` instead of relying on a query string, and
+loads the exact same `event.js` to render the full page for human visitors. Nothing about
+the rendering logic is duplicated — only the per-event `<head>`.
+
+**This is what the calendar's event cards, the homepage carousel, and `admin.html`'s
+"View" link actually point to** (`event-<id>.html`, not `event.html?id=...`) — that's the
+URL that needs to be shared for the right image to show up in a preview.
+
+`.github/workflows/build-event-pages.yml` regenerates these automatically on every push
+that touches `events.json` (or the generator script itself), committing the result — same
+pattern as the Instagram sync. It also deletes any `event-<id>.html` whose id no longer
+exists in `events.json` (e.g. after a rename), so stale pages don't linger. You can also
+trigger it manually from the Actions tab, or run
+`node .github/scripts/build-event-pages.js` locally.
+
+One consequence: a brand-new event added straight in `admin.html` (before you've
+committed/pushed) doesn't have an `event-<id>.html` yet — its "View" link 404s until the
+next push runs the Action. This matches the rest of `admin.html`'s flow (edit → download →
+commit → push); nothing renders live from an unsaved session.
 
 ## The shop
 

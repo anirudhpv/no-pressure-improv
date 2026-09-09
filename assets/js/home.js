@@ -31,7 +31,7 @@
       const [,,d] = e.date.split("-");
       const m = MONTH_SHORT[Number(e.date.split("-")[1])-1];
       return `
-      <a class="slide f-${e.format}" data-i="${i}" href="event.html?id=${encodeURIComponent(e.id)}">
+      <a class="slide f-${e.format}" data-i="${i}" href="event-${encodeURIComponent(e.id)}.html">
         <img src="assets/images/${e.image||""}" alt="">
         <div class="info">
           <span class="datepill">${m} ${Number(d)}</span>

@@ -38,7 +38,10 @@
       </div>`;
   }
 
-  const id = new URLSearchParams(location.search).get("id");
+  // Generated per-event pages (event-<id>.html) set data-event-id so crawlers land on a
+  // page with correct OG tags baked in; event.html?id=... (this same script) still works
+  // as a plain query-param fallback.
+  const id = document.body.dataset.eventId || new URLSearchParams(location.search).get("id");
   if (!id) { notFound(); }
   else {
     fetch("assets/data/events.json").then(r=>r.json()).then(events => {
@@ -50,7 +53,7 @@
       const when = `${DOW[date.getDay()]}, ${ordinal(d)} ${MONTH_NAMES[m-1]} ${y}`;
 
       document.title = `${e.title} — No Pressure Improv`;
-      document.getElementById("pageDesc").setAttribute("content", `${e.title} · ${when} · ${e.venue} — No Pressure Improv.`);
+      document.getElementById("pageDesc")?.setAttribute("content", `${e.title} · ${when} · ${e.venue} — No Pressure Improv.`);
 
       content.innerHTML = `
         <article class="ev">

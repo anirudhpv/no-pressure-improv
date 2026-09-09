@@ -141,7 +141,7 @@
             <div class="ev-actions">
               <a class="btn btn-primary" href="${TALLY}" target="_blank" rel="noopener">Register for this</a>
               <a class="btn btn-ghost" href="${gcal(e)}" target="_blank" rel="noopener">Add to Google Calendar</a>
-              <a class="btn btn-ghost" href="event.html?id=${encodeURIComponent(e.id)}">View event page ↗</a>
+              <a class="btn btn-ghost" href="event-${encodeURIComponent(e.id)}.html">View event page ↗</a>
             </div>
             </div>
           </article>`).join("") + `</div>`;
@@ -215,7 +215,7 @@
         <div class="t"><b>${esc(e.title)}</b><span>with ${esc(e.host)} · ${fmtTime(e.start)} to ${fmtTime(e.end)} · ${esc(e.venue)}</span></div>
         <div class="r">
           <span class="chip f-${e.format}">${e.format==="online"?"Online":"In-person"}</span>${priceHTML(e)}
-          <a class="row-link" href="event.html?id=${encodeURIComponent(e.id)}">View event ↗</a>
+          <a class="row-link" href="event-${encodeURIComponent(e.id)}.html">View event ↗</a>
         </div>
       </div>`;
     }).join("")).join("");

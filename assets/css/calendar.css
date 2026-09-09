@@ -194,6 +194,8 @@
   .row .t b{display:block; font-weight:700}
   .row .t span{color:var(--ink-2); font-size:14px}
   .row .r{display:flex; align-items:center; gap:10px}
+  .row-link{color:var(--accent); font-weight:700; font-size:13px; text-decoration:none; white-space:nowrap}
+  .row-link:hover{text-decoration:underline}
   .form-card{border:1px solid var(--line); border-radius:22px; overflow:hidden; background:var(--card)}
   .form-note{display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; padding:22px 24px; font-size:15px; color:var(--ink-2)}
   .form-note span{max-width:58ch}

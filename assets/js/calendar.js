@@ -209,14 +209,25 @@
     list.innerHTML = allDates.map(dISO => byDate[dISO].map(e => {
       const [ly,lm,ld] = dISO.split("-").map(Number);
       return `
-      <button class="row" type="button" data-date="${dISO}">
+      <div class="row" role="button" tabindex="0" data-date="${dISO}" aria-label="Pin ${esc(e.title)} on ${pad(ld)}">
         <div class="d">${pad(ld)}<small>${DOW[new Date(ly,lm-1,ld).getDay()].slice(0,3).toUpperCase()}</small></div>
         <img class="th" src="assets/images/${e.image||""}" alt="">
         <div class="t"><b>${esc(e.title)}</b><span>with ${esc(e.host)} · ${fmtTime(e.start)} to ${fmtTime(e.end)} · ${esc(e.venue)}</span></div>
-        <div class="r"><span class="chip f-${e.format}">${e.format==="online"?"Online":"In-person"}</span>${priceHTML(e)}</div>
-      </button>`;
+        <div class="r">
+          <span class="chip f-${e.format}">${e.format==="online"?"Online":"In-person"}</span>${priceHTML(e)}
+          <a class="row-link" href="event.html?id=${encodeURIComponent(e.id)}">View event ↗</a>
+        </div>
+      </div>`;
     }).join("")).join("");
-    list.addEventListener("click", e => { const r=e.target.closest(".row"); if (!r) return; pin(r.dataset.date); document.querySelector(".stage").scrollIntoView({behavior:"smooth", block:"start"}); });
+    list.addEventListener("click", e => {
+      if (e.target.closest(".row-link")) return; // let the event-page link navigate normally
+      const r=e.target.closest(".row"); if (!r) return;
+      pin(r.dataset.date); document.querySelector(".stage").scrollIntoView({behavior:"smooth", block:"start"});
+    });
+    list.addEventListener("keydown", e => {
+      const r=e.target.closest(".row"); if (!r) return;
+      if (e.key==="Enter" || e.key===" "){ e.preventDefault(); pin(r.dataset.date); document.querySelector(".stage").scrollIntoView({behavior:"smooth", block:"start"}); }
+    });
 
     // ---------- price toggle ----------
     const toggle = document.getElementById("priceToggle");

@@ -24,6 +24,7 @@ assets/
   data/
     events.json      Single source of truth for all events, across all months
     products.json    Shop products (t-shirts, tote bags)
+    instagram.json   Recent Instagram posts for the homepage carousel (see below) — refreshed by a GitHub Action, not hand-edited
   css/
     base.css         Shared tokens, header, footer, buttons — loaded by every page
     home.css         Homepage-only styles (hero, carousel, community cards)
@@ -38,6 +39,7 @@ assets/
     calendar.js       Calendar rendering: fetches events.json, month navigation, hover/click-to-pin, price toggle, image lightbox
     shop.js          Shop rendering: fetches products.json, builds product cards
     admin.js         Calendar editor: fetches events.json, lets you add/edit/delete events client-side, exports updated JSON
+    instagram.js     Homepage Instagram carousel: fetches instagram.json, renders it (or a follow-us fallback if empty)
   images/
     logo.png
     event-04.jpg, event-11.jpg, event-13.jpg, event-19.jpg,
@@ -174,6 +176,37 @@ until a real backend exists to receive them). "Clear cart" empties it entirely.
 If this becomes a real e-commerce site, this is the piece that moves server-side first:
 the cart would live behind an account/session instead of `localStorage`, and checkout
 would submit the cart directly instead of asking someone to retype it into a form.
+
+## Instagram carousel
+
+The homepage's "Recent on Instagram" carousel reads from **`assets/data/instagram.json`**
+(an array of `{id, permalink, caption, imageUrl, timestamp}`). It ships empty (`[]`) —
+with no posts, the carousel shows a plain "follow us" fallback instead.
+
+This file isn't meant to be hand-edited. A scheduled GitHub Action
+(`.github/workflows/instagram-sync.yml`, daily) runs `.github/scripts/fetch-instagram.js`,
+which calls the **Instagram Graph API** and commits whatever it gets back. The token is
+never shipped to the browser — this is a static site with no backend, so a client-side
+token would be visible to anyone viewing page source; fetching at a scheduled interval
+into a plain JSON file (same pattern as `events.json`/`products.json`) avoids that.
+
+To turn it on, you need two secrets in this repo (Settings → Secrets and variables →
+Actions → New repository secret):
+
+- `IG_USER_ID` — the Instagram **Business or Creator** account's numeric id.
+- `IG_ACCESS_TOKEN` — a long-lived Graph API access token for that account.
+
+Getting both requires: the Instagram account converted to Business/Creator and linked to
+a Facebook Page; a Meta App at developers.facebook.com with the Instagram Graph API
+product added; and a token generated (e.g. via Graph API Explorer) with the
+`instagram_basic` and `pages_show_list` permissions, exchanged for a long-lived token.
+The account id can be read from `GET /{page-id}?fields=instagram_business_account` once
+you have a token. None of this can be done from inside this repo — it's a one-time setup
+in Meta's own developer console.
+
+Once both secrets exist, either wait for the daily run or trigger it manually from the
+Actions tab ("Run workflow"). Known follow-up: long-lived tokens expire (~60 days) and
+currently need manual refreshing — there's no auto-refresh job yet.
 
 ## Keeping this off search engines and AI crawlers
 

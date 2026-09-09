@@ -1,0 +1,11 @@
+.event-page{padding:8px 0 40px; max-width:760px; margin:0 auto}
+.back-link{display:inline-block; margin-bottom:22px; color:var(--ink-2); font-weight:600; font-size:14px; text-decoration:none}
+.back-link:hover{color:var(--accent)}
+.event-not-found{border:1px dashed var(--line-strong); border-radius:20px; padding:36px 28px; text-align:center; color:var(--ink-2)}
+.event-not-found h1{font-size:24px; font-weight:800; color:var(--ink); margin-bottom:8px}
+
+.event-page .ev{grid-template-columns:1fr}
+.event-page .ev .poster{border-radius:20px 20px 0 0; aspect-ratio:4/3}
+.event-page .ev .body{padding:24px 26px 26px}
+.event-page .ev h1{font-size:clamp(26px,3.6vw,36px); font-weight:800; letter-spacing:-.02em; line-height:1.1}
+

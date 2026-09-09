@@ -11,6 +11,7 @@ static file host will serve it as-is.
 ```
 index.html          Homepage: hero, upcoming-events carousel, community links, calendar teaser
 calendar.html        Interactive, multi-month events calendar (hover/click a date, price toggle)
+event.html           One template, reused for every event's own page (see below)
 shop.html            Merch shop: printed tees and block-printed totes (see below)
 marathon.html        Archive page for the (completed) Improv Marathon
 admin.html           Calendar editor — a form-based helper for editing events.json (see below)
@@ -30,6 +31,7 @@ assets/
     home.css         Homepage-only styles (hero, carousel, community cards)
     marathon.css     Marathon archive page styles
     calendar.css     Calendar page's own content styles (calendar grid, panels, etc.)
+    event.css        Single-event page styles (reuses calendar.css's .ev card)
     shop.css         Shop page styles
     admin.css        Calendar editor page styles
   js/
@@ -37,6 +39,7 @@ assets/
     include.js       Fetches partials/header.html and partials/footer.html into every page
     home.js          Homepage carousel: fetches events.json, shows upcoming events
     calendar.js       Calendar rendering: fetches events.json, month navigation, hover/click-to-pin, price toggle, image lightbox
+    event.js         Single-event page: reads ?id= from the URL, finds that event in events.json, renders it
     shop.js          Shop rendering: fetches products.json, builds product cards
     admin.js         Calendar editor: fetches events.json, lets you add/edit/delete events client-side, exports updated JSON
     instagram.js     Homepage Instagram carousel: fetches instagram.json, renders it (or a follow-us fallback if empty)
@@ -81,6 +84,7 @@ Each event is:
 
 ```json
 {
+  "id": "2026-09-04-quit-playin-games-with-my-heart",
   "date": "2026-09-04",
   "start": "19:00", "end": "21:00",
   "format": "inperson",
@@ -114,6 +118,29 @@ download, and `events.json` goes away in favor of an API call.
 
 Registration currently links out to a Tally form (`https://tally.so/r/gDoGBM`). Update
 that URL in `calendar.html` and `calendar.js` if the form changes.
+
+## Per-event pages
+
+Every event gets its own page at `event.html?id=<id>` — there's no separate HTML file per
+event. `event.html` is one template; `assets/js/event.js` reads the `id` from the URL,
+finds the matching entry in `events.json`, and renders it. **Adding a new event to
+`events.json` (by hand or via `admin.html`) is all that's needed — its page exists the
+moment the JSON does, with nothing else to build or deploy.** The calendar's event cards
+and the homepage carousel both link to `event.html?id=...` for the events they show, and
+`admin.html`'s list has a "View" link per event for a quick check.
+
+Each event's `id` is generated once (date + a slugified title, e.g.
+`2026-09-04-quit-playin-games-with-my-heart`) and then kept stable across edits — even if
+you change the title later — so a link someone already has keeps working. `admin.html`
+handles this automatically; if you ever hand-edit `events.json` directly, keep the `id` of
+an existing event unchanged, and give a new one a `date-slugified-title` id of its own.
+
+Note for later: since there's no per-event server-rendered HTML, social-preview crawlers
+(the same ones covered under "Keeping this off search engines" below) only ever see the
+generic `event.html` `<title>`/meta tags — the per-event title is set client-side after
+the JSON loads. Not an issue while the site stays noindex'd; would need real per-page
+meta tags (server-rendered, or via a build step) if this ever needs to be shared with a
+preview that matters, e.g. unfurled in a chat app.
 
 ## The shop
 
@@ -240,3 +267,8 @@ browser.
 - The Marathon archive page uses plain color-block cards for its lineup instead of photos —
   the original event's photos live only on the external NPI site and weren't available to
   pull into this repo.
+- `events.json`/`products.json` are the placeholder for a real database (same note as the
+  cart, above). When that exists, `event.js`/`calendar.js`/`shop.js`/`home.js` swap their
+  `fetch("assets/data/*.json")` calls for real API calls — the `?id=` URL scheme for event
+  pages carries over unchanged, it would just resolve against a database instead of a
+  static file.

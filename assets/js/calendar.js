@@ -141,6 +141,7 @@
             <div class="ev-actions">
               <a class="btn btn-primary" href="${TALLY}" target="_blank" rel="noopener">Register for this</a>
               <a class="btn btn-ghost" href="${gcal(e)}" target="_blank" rel="noopener">Add to Google Calendar</a>
+              <a class="btn btn-ghost" href="event.html?id=${encodeURIComponent(e.id)}">View event page ↗</a>
             </div>
             </div>
           </article>`).join("") + `</div>`;

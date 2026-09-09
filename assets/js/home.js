@@ -31,14 +31,14 @@
       const [,,d] = e.date.split("-");
       const m = MONTH_SHORT[Number(e.date.split("-")[1])-1];
       return `
-      <article class="slide f-${e.format}" data-i="${i}">
+      <a class="slide f-${e.format}" data-i="${i}" href="event.html?id=${encodeURIComponent(e.id)}">
         <img src="assets/images/${e.image||""}" alt="">
         <div class="info">
           <span class="datepill">${m} ${Number(d)}</span>
           <h3>${e.title}</h3>
           <p class="meta"><b>${fmtWhen(e)}</b><br>${e.host} · ${e.venue}</p>
         </div>
-      </article>`;
+      </a>`;
     }).join("");
 
     dots.innerHTML = upcoming.map((_,i)=>`<button type="button" data-i="${i}" aria-label="Go to event ${i+1}"></button>`).join("");

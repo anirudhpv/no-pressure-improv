@@ -42,6 +42,7 @@
         <div class="when">${fmtRow(e)}</div>
         <div class="what"><b>${escapeHtml(e.title)}</b><span>${escapeHtml(e.venue)}${e.venueLink?" 🔗":""} · ${e.format==="online"?"Online":"In-person"}</span></div>
         <div class="row-actions">
+          <a href="event.html?id=${encodeURIComponent(e.id)}" target="_blank" rel="noopener">View</a>
           <button type="button" data-edit="${i}">Edit</button>
           <button type="button" data-del="${i}">Delete</button>
         </div>
@@ -51,16 +52,21 @@
 
   function escapeHtml(s){ return String(s).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
 
+  function slugify(s){
+    return String(s).toLowerCase().replace(/['']/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
+  }
+
   function renderExport(){
     jsonOut.value = JSON.stringify(sorted(), null, 2) + "\n";
   }
 
   function renderAll(){ renderList(); renderExport(); }
 
-  function readForm(){
+  function readForm(id){
     const price = el("price").value;
     const venueLink = el("venuelink").value.trim();
     return {
+      id,
       date: el("date").value,
       start: el("start").value,
       end: el("end").value,
@@ -101,7 +107,12 @@
 
   form.addEventListener("submit", e => {
     e.preventDefault();
-    const data = readForm();
+    // Keep an edited event's id stable (it may already be linked to from elsewhere);
+    // only generate a fresh one for brand-new events.
+    const id = editIndex>-1
+      ? events[editIndex].id
+      : `${el("date").value}-${slugify(el("title").value)}`;
+    const data = readForm(id);
     if (editIndex>-1) events[editIndex] = data;
     else events.push(data);
     resetForm();

@@ -29,10 +29,10 @@
 .ev-row .what b{display:block}
 .ev-row .what span{font-size:13px; color:var(--ink-2)}
 .ev-row .row-actions{display:flex; gap:8px}
-.ev-row .row-actions button{
-  font:inherit; font-size:13px; font-weight:700; padding:6px 12px; border-radius:999px; cursor:pointer; border:1px solid var(--line); background:transparent; color:var(--ink);
+.ev-row .row-actions button, .ev-row .row-actions a{
+  font:inherit; font-size:13px; font-weight:700; padding:6px 12px; border-radius:999px; cursor:pointer; border:1px solid var(--line); background:transparent; color:var(--ink); text-decoration:none;
 }
-.ev-row .row-actions button:hover{background:var(--line)}
+.ev-row .row-actions button:hover, .ev-row .row-actions a:hover{background:var(--line)}
 .empty-note{color:var(--ink-2); font-size:14px; padding:8px 0}
 
 .admin-export{margin-bottom:40px}

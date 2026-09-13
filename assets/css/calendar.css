@@ -134,6 +134,8 @@
   .day.pinned .dot i{background:var(--accent-ink)}
   .day.pinned::before{color:var(--accent-ink); opacity:.8}
   .day:focus-visible{outline:2px solid var(--focus); outline-offset:2px}
+  .day.has.past{filter:grayscale(.9); opacity:.55}
+  .day.has.past.pinned{filter:none; opacity:1}
   .cal-foot{margin-top:14px; font-size:12.5px; color:var(--ink-3); display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap}
   .cal-foot a{color:var(--ink-2); font-weight:600}
 
@@ -211,6 +213,10 @@
   .ev .body{padding:22px 24px 20px 0}
   .row{grid-template-columns:72px 56px 1fr auto}
   .row .th{width:56px; height:70px; object-fit:cover; object-position:top; border-radius:8px; background:var(--bg-2); display:block}
+  .ev.past .poster{filter:grayscale(1)}
+  .ev.past{opacity:.7}
+  .row.past{opacity:.55}
+  .row.past .th{filter:grayscale(1)}
   .payline{display:grid; grid-template-columns:96px 1fr; gap:14px; align-items:start}
   .payline img{width:96px; border-radius:8px; border:1px solid var(--line); display:block; cursor:zoom-in}
   .fa-fig{margin:12px 0 0}

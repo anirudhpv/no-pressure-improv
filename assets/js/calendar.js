@@ -90,6 +90,7 @@
           el.setAttribute("aria-label", `${ordinal(d)} ${MONTH_NAMES[curM]}, no session`);
         }
         if (dateISO===todayISO) el.classList.add("today");
+        if (dateISO<todayISO) el.classList.add("past");
         el.dataset.date = dateISO;
         el.innerHTML = `<span>${pad(d)}</span>` + (evs ? `<span class="dot">${evs.map(e=>`<i class="${e.format==="online"?"o":""}"></i>`).join("")}</span>` : "");
         grid.appendChild(el);
@@ -120,8 +121,9 @@
             ${upcomingAll? `<button class="btn btn-ghost" data-jump="${upcomingAll}">${fmtShort(upcomingAll)}: ${esc(byDate[upcomingAll][0].title)} →</button>` : ""}
           </div></div>`;
       } else {
+        const isPast = dateISO < todayISO;
         body = `<div class="events">` + evs.map(e => `
-          <article class="ev">
+          <article class="ev${isPast?" past":""}">
             <img class="poster" src="assets/images/${e.image||""}" alt="Poster for ${esc(e.title)}" data-zoom>
             <div class="body">
             <div class="ev-top">
@@ -208,8 +210,9 @@
     // ---------- month list (all events, every month) ----------
     list.innerHTML = allDates.map(dISO => byDate[dISO].map(e => {
       const [ly,lm,ld] = dISO.split("-").map(Number);
+      const isPast = dISO < todayISO;
       return `
-      <div class="row" role="button" tabindex="0" data-date="${dISO}" aria-label="Pin ${esc(e.title)} on ${pad(ld)}">
+      <div class="row${isPast?" past":""}" role="button" tabindex="0" data-date="${dISO}" aria-label="Pin ${esc(e.title)} on ${pad(ld)}">
         <div class="d">${pad(ld)}<small>${DOW[new Date(ly,lm-1,ld).getDay()].slice(0,3).toUpperCase()}</small></div>
         <img class="th" src="assets/images/${e.image||""}" alt="">
         <div class="t"><b>${esc(e.title)}</b><span>with ${esc(e.host)} · ${fmtTime(e.start)} to ${fmtTime(e.end)} · ${esc(e.venue)}</span></div>

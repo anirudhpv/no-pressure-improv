@@ -51,6 +51,13 @@
 
     const now = new Date();
     const todayISO = iso(now.getFullYear(), now.getMonth(), now.getDate());
+    const PAST_GRACE_MS = 60*60*1000; // an event only counts as "past" an hour after it actually ends
+    function eventIsPast(e){
+      const [y,m,d] = e.date.split("-").map(Number);
+      const [eh,em] = e.end.split(":").map(Number);
+      const end = new Date(y, m-1, d, eh, em);
+      return now.getTime() >= end.getTime() + PAST_GRACE_MS;
+    }
 
     let curY, curM;
     const upcoming = allDates.filter(d => d >= todayISO);
@@ -90,7 +97,7 @@
           el.setAttribute("aria-label", `${ordinal(d)} ${MONTH_NAMES[curM]}, no session`);
         }
         if (dateISO===todayISO) el.classList.add("today");
-        if (dateISO<todayISO) el.classList.add("past");
+        if (evs && evs.every(eventIsPast)) el.classList.add("past");
         el.dataset.date = dateISO;
         el.innerHTML = `<span>${pad(d)}</span>` + (evs ? `<span class="dot">${evs.map(e=>`<i class="${e.format==="online"?"o":""}"></i>`).join("")}</span>` : "");
         grid.appendChild(el);
@@ -121,9 +128,8 @@
             ${upcomingAll? `<button class="btn btn-ghost" data-jump="${upcomingAll}">${fmtShort(upcomingAll)}: ${esc(byDate[upcomingAll][0].title)} →</button>` : ""}
           </div></div>`;
       } else {
-        const isPast = dateISO < todayISO;
         body = `<div class="events">` + evs.map(e => `
-          <article class="ev${isPast?" past":""}">
+          <article class="ev${eventIsPast(e)?" past":""}">
             <img class="poster" src="assets/images/${e.image||""}" alt="Poster for ${esc(e.title)}" data-zoom>
             <div class="body">
             <div class="ev-top">
@@ -210,7 +216,7 @@
     // ---------- month list (all events, every month) ----------
     list.innerHTML = allDates.map(dISO => byDate[dISO].map(e => {
       const [ly,lm,ld] = dISO.split("-").map(Number);
-      const isPast = dISO < todayISO;
+      const isPast = eventIsPast(e);
       return `
       <div class="row${isPast?" past":""}" role="button" tabindex="0" data-date="${dISO}" aria-label="Pin ${esc(e.title)} on ${pad(ld)}">
         <div class="d">${pad(ld)}<small>${DOW[new Date(ly,lm-1,ld).getDay()].slice(0,3).toUpperCase()}</small></div>

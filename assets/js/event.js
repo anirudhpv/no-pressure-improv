@@ -51,9 +51,9 @@
       const [y,m,d] = e.date.split("-").map(Number);
       const date = new Date(y, m-1, d);
       const when = `${DOW[date.getDay()]}, ${ordinal(d)} ${MONTH_NAMES[m-1]} ${y}`;
-      const now = new Date();
-      const todayISO = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}-${String(now.getDate()).padStart(2,"0")}`;
-      const isPast = e.date < todayISO;
+      const [eh,em] = e.end.split(":").map(Number);
+      const end = new Date(y, m-1, d, eh, em);
+      const isPast = Date.now() >= end.getTime() + 60*60*1000; // an hour after it actually ends
 
       document.title = `${e.title} — No Pressure Improv`;
       document.getElementById("pageDesc")?.setAttribute("content", `${e.title} · ${when} · ${e.venue} — No Pressure Improv.`);

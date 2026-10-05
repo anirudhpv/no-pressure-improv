@@ -214,7 +214,7 @@
     }
 
     // ---------- month list (all events, every month) ----------
-    list.innerHTML = allDates.map(dISO => byDate[dISO].map(e => {
+    list.innerHTML = [...allDates].reverse().map(dISO => byDate[dISO].map(e => {
       const [ly,lm,ld] = dISO.split("-").map(Number);
       const isPast = eventIsPast(e);
       return `

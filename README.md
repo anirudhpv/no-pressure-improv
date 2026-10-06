@@ -14,6 +14,7 @@ calendar.html        Interactive, multi-month events calendar (hover/click a dat
 event.html           Single-event template (event.html?id=...) — see "Per-event pages"
 event-<id>.html      Auto-generated per event, with real per-event preview images — see below; don't hand-edit
 shop.html            Merch shop: printed tees and block-printed totes (see below)
+what-we-do.html      What We Do: the six kinds of NPI events (jams, online jams, labs, shows, workshops, socials)
 marathon.html        Archive page for the (completed) Improv Marathon
 admin.html           Calendar editor — a form-based helper for editing events.json (see below)
 robots.txt           Blocks search engines and known AI/LLM crawlers from indexing the site
